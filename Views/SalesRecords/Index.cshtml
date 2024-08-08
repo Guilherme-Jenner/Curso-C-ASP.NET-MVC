@@ -1,0 +1,66 @@
+﻿@model IEnumerable<UDEMY_PROJECT.Models.SalesRecord> 
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <form class="navbar-form navbar-left" role="search" asp-action="Index">
+            <div class="form-group">
+                <label for="dateInitial">Tipo de Busca</label>
+                <select class="form-control" name="tipo">
+                    <option value="buscaSimples">Busca Simples</option>
+                    <option value="buscaGrupo">Busca por Agrupamento</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="dateInitial">Min Date</label>
+                <input type="date" class="form-control" name="dateInitial" value=@ViewData["dateInitial"] />
+            </div>
+            <div class="form-group">
+                <label for="dateFinal">Max Date</label>
+                <input type="date" class="form-control" name="dateFinal" value=@ViewData["dateFinal"] />
+            </div>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+        <h3 class="panel-title">Total sales = @Model.Sum(obj => obj.Amount).ToString("F2")</h3>
+    </div>
+</nav>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
